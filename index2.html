@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flame Animation Test: Canvas</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="js/modernizr-1.6.min.js"></script>
+<script type="text/javascript">
+window.addEventListener('load', eventWindowLoaded, false);	
+function eventWindowLoaded() {
+
+	canvasApp();
+	
+}
+(function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
+                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+ 
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+ 
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
+function canvasSupport () {
+  	return Modernizr.canvas;
+}
+
+
+function canvasApp(){
+	
+
+	if (!canvasSupport()) {
+			 return;
+  	}else{
+		
+	    var theCanvas = document.getElementById('canvas');
+	    var context = theCanvas.getContext('2d');
+	}
+	
+	var tileSheet=new Image();
+	tileSheet.addEventListener('load', eventFlameLoaded , false);
+	tileSheet.src="fire_sprite.png";
+	
+	
+	var animationFrames=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,20,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];
+	var frameIndex=0;
+	
+	function eventFlameLoaded() {
+		startUp();
+	}
+	var fps = 14;
+	function drawScreen() {
+		 setTimeout(function() {
+		requestAnimationFrame(drawScreen);
+		
+		var sourceX=Math.floor(animationFrames[frameIndex] % 4) *250;
+		var sourceY=Math.floor(animationFrames[frameIndex] / 13) *301;
+		
+		context.drawImage(tileSheet, sourceX, sourceY, 250, 301, 0, 0, 250, 301);
+		 }, 1000 / fps);
+		frameIndex++;
+		if (frameIndex ==animationFrames.length) {
+		   frameIndex=0;
+		}
+		/*return console.log (animationFrames);*/
+	}
+	
+	function startUp(){
+
+		drawScreen();
+	}
+
+
+}
+
+
+</script> 
+</head>
+<body>
+
+
+<p>Flash Animation: SWF file</p>
+<article id="fire_flash">
+        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="250" height="301" id="fire_flash2" >
+				<param name="movie" value="fire1.swf" />
+				<param name="quality" value="high" />
+				<param name="bgcolor" value="#000000" />
+				<param name="play" value="true" />
+				<param name="loop" value="true" />
+				<param name="wmode" value="" />
+				<param name="scale" value="showall" />
+				<param name="menu" value="true" />
+				<param name="devicefont" value="" />
+				<param name="salign" value="false" />
+				<param name="allowScriptAccess" value="sameDomain" />
+				<!--[if !IE]>-->
+				<object type="application/x-shockwave-flash" data="fire1.swf" width="250" height="301">
+					<param name="movie" value="fire1.swf" />
+					<param name="quality" value="high" />
+					<param name="bgcolor" value="#000000" />
+					<param name="play" value="true" />
+					<param name="loop" value="true" />
+					<param name="wmode" value="" />
+					<param name="scale" value="showall" />
+					<param name="menu" value="true" />
+					<param name="devicefont" value="false" />
+					<param name="salign" value="" />
+					<param name="allowScriptAccess" value="sameDomain" />
+				<!--<![endif]-->
+					<a href="http://www.adobe.com/go/getflash">
+						<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+					</a>
+				<!--[if !IE]>-->
+				</object>
+				<!--<![endif]-->
+			</object>
+        </article>
+ <p>Sprite Sheet generated with Flash CS6 animated with Canvas</p>       
+<canvas id="canvas" width="250" height="301">
+ Your browser does not support the HTML 5 Canvas. 
+</canvas>
+
+</body>
+</html>
