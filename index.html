@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fire_Canvas Test</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body onload="init()">
+
+	<canvas id="myCanvas" width="250" height="301">
+    	<!-- Fallback content-->
+    	Sorry, your browser doesn't support canvas Technology
+    </canvas>
+    
+    <script>
+		
+		var width = 250,
+			height = 301,
+			frames = 50,
+			
+			currentFrame = 0,
+			
+			canvas = document.getElementById("myCanvas");
+			ctx = canvas.getContext("2d");
+			image = new Image()
+			image.src = 'fire_sprite2.png';
+			
+		var draw = function(){
+			ctx.clearRect(0, 0, width, height);
+			ctx.drawImage(image, 0, height * currentFrame, width, height, 0, 0, width, height);
+			
+		
+		if (currentFrame == frames) {
+				currentFrame = 0;
+				}else{
+				 currentFrame++;	
+				}
+			alert(currentFrame);
+		}
+		setInterval(draw, 120);
+		alert(currentFrame++); 
+	</script>
+    
+</body>
+</html>
